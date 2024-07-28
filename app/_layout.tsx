@@ -31,6 +31,7 @@ const queryClient = new QueryClient();
 export default function RootLayout() {
 	const [loaded, error] = useFonts({
 		SpaceMono: require("../assets/fonts/SpaceMono-Regular.ttf"),
+		Inter: require("../assets/fonts/Inter-VariableFont_slnt,wght.ttf"),
 		...FontAwesome.font,
 	});
 
