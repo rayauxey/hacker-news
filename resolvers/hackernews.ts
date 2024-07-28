@@ -36,6 +36,11 @@ export interface Story extends Item {
 	title: string;
 }
 
+export interface Comment extends Item {
+	type: "comment";
+	parent: ItemId;
+}
+
 const HACKER_NEWS_V0_API = "https://hacker-news.firebaseio.com/v0";
 
 type StoryCategory = "new" | "top" | "best";
@@ -54,4 +59,21 @@ export async function getItem<T extends Item>(id: ItemId) {
 export async function getStories(count: number, category: StoryCategory) {
 	const ids = await getStoriesIds(count, category);
 	return await Promise.all(ids.map((id) => getItem<Story>(id)));
+}
+
+export async function getUser(id: string) {
+	const res = await fetch(`${HACKER_NEWS_V0_API}/user/${id}.json`);
+	return (await res.json()) as User;
+}
+
+export async function getComments(ids: ItemIdList) {
+	return await Promise.all(ids.map((id) => getItem<Comment>(id)));
+}
+
+export async function getStory(id: ItemId) {
+	const story = await getItem<Story>(id);
+	return {
+		story,
+		comments: await getComments(story.kids ?? []),
+	};
 }
