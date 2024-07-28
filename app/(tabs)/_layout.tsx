@@ -36,16 +36,23 @@ export default function TabLayout() {
 			<Tabs.Screen
 				name="index"
 				options={{
-					title: "Hot Stories",
+					title: "Top Stories",
 					tabBarIcon: ({ color }) => (
 						<MaterialIcons name="whatshot" size={28} color={color} />
 					),
 				}}
 			/>
 			<Tabs.Screen
-				name="two"
+				name="new-stories"
 				options={{
-					title: "Top Stories",
+					title: "New Stories",
+					tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
+				}}
+			/>
+			<Tabs.Screen
+				name="best-stories"
+				options={{
+					title: "New Stories",
 					tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
 				}}
 			/>
