@@ -40,25 +40,18 @@ const HACKER_NEWS_V0_API = "https://hacker-news.firebaseio.com/v0";
 
 type StoryCategory = "new" | "top" | "best";
 
-export async function getStoriesIds(
-	count: number,
-	category: StoryCategory,
-): Promise<ItemIdList> {
+export async function getStoriesIds(count: number, category: StoryCategory) {
 	const res = await fetch(`${HACKER_NEWS_V0_API}/${category}stories.json`);
 	const ids = (await res.json()) as ItemIdList;
 	return ids.slice(0, count);
 }
 
-export async function getItem<T extends Item>(id: ItemId): Promise<T> {
+export async function getItem<T extends Item>(id: ItemId) {
 	const res = await fetch(`${HACKER_NEWS_V0_API}/item/${id}.json`);
 	return (await res.json()) as T;
 }
 
-export async function getStories(
-	count: number,
-	category: StoryCategory,
-): Promise<Story[]> {
+export async function getStories(count: number, category: StoryCategory) {
 	const ids = await getStoriesIds(count, category);
-	const stories = await Promise.all(ids.map((id) => getItem<Story>(id)));
-	return stories;
+	return await Promise.all(ids.map((id) => getItem<Story>(id)));
 }
